@@ -21,8 +21,8 @@ class AuthProvider extends ChangeNotifier {
       FirebaseFirestore.instance.collection('deliveryBoys');
 
   Future<File?> getImage() async {
-    final ImagePicker _picker = ImagePicker();
-    final pickedImage = await _picker.pickImage(source: ImageSource.gallery);
+    final ImagePicker picker = ImagePicker();
+    final pickedImage = await picker.pickImage(source: ImageSource.gallery);
     if (pickedImage != null) {
       image = File(pickedImage.path);
       isPictureAvailable = true;
@@ -36,32 +36,32 @@ class AuthProvider extends ChangeNotifier {
   Future getCurrentAddress() async {
     Location location = Location();
 
-    bool _serviceEnabled;
-    PermissionStatus _permissionGranted;
-    LocationData _locationData;
+    bool serviceEnabled;
+    PermissionStatus permissionGranted;
+    LocationData locationData;
 
-    _serviceEnabled = await location.serviceEnabled();
-    if (!_serviceEnabled) {
-      _serviceEnabled = await location.requestService();
-      if (!_serviceEnabled) {
+    serviceEnabled = await location.serviceEnabled();
+    if (!serviceEnabled) {
+      serviceEnabled = await location.requestService();
+      if (!serviceEnabled) {
         return;
       }
     }
 
-    _permissionGranted = await location.hasPermission();
-    if (_permissionGranted == PermissionStatus.denied) {
-      _permissionGranted = await location.requestPermission();
-      if (_permissionGranted != PermissionStatus.granted) {
+    permissionGranted = await location.hasPermission();
+    if (permissionGranted == PermissionStatus.denied) {
+      permissionGranted = await location.requestPermission();
+      if (permissionGranted != PermissionStatus.granted) {
         return;
       }
     }
-    _locationData = await location.getLocation();
-    shopLatitude = _locationData.latitude!;
-    shopLongitude = _locationData.longitude!;
+    locationData = await location.getLocation();
+    shopLatitude = locationData.latitude!;
+    shopLongitude = locationData.longitude!;
     notifyListeners();
 
     final coordinates =
-        Coordinates(_locationData.latitude, _locationData.longitude);
+        Coordinates(locationData.latitude, locationData.longitude);
     var addresses =
         await Geocoder.local.findAddressesFromCoordinates(coordinates);
     var shopAddress = addresses.first;

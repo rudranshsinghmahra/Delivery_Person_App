@@ -1,6 +1,5 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
@@ -92,7 +91,7 @@ class _OrderSummaryCardState extends State<OrderSummaryCard> {
                         ),
                         Text(
                           "${customer?['firstName']} ${customer?['lastName']}",
-                          style: TextStyle(fontSize: 12),
+                          style: const TextStyle(fontSize: 12),
                         )
                       ],
                     ),
@@ -112,7 +111,7 @@ class _OrderSummaryCardState extends State<OrderSummaryCard> {
                           },
                         ),
                         IconButton(
-                          icon: Icon(Icons.phone),
+                          icon: const Icon(Icons.phone),
                           onPressed: () {
                             FlutterPhoneDirectCaller.callNumber(
                                 customer?['number']);
@@ -435,10 +434,10 @@ class _OrderSummaryCardState extends State<OrderSummaryCard> {
                   showDialogBox(
                       "Accept Order", "Accepted", documentSnapshot.id);
                 },
-                child: const Text("Accept"),
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all(Colors.green),
                 ),
+                child: const Text("Accept"),
               ),
             ),
             const SizedBox(
@@ -454,13 +453,13 @@ class _OrderSummaryCardState extends State<OrderSummaryCard> {
                     showDialogBox(
                         "Cancel Order", "Rejected", documentSnapshot.id);
                   },
-                  child: const Text("Reject"),
                   style: ButtonStyle(
                     backgroundColor:
                         documentSnapshot['orderStatus'] == "Rejected"
                             ? MaterialStateProperty.all(Colors.grey)
                             : MaterialStateProperty.all(Colors.red),
                   ),
+                  child: const Text("Reject"),
                 ),
               ),
             )

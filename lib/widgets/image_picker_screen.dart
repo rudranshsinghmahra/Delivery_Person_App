@@ -14,20 +14,20 @@ class _ShopPicCardState extends State<ShopPicCard> {
   @override
   Widget build(BuildContext context) {
     File? image;
-    final _authData = Provider.of<AuthProvider>(context);
+    final authData = Provider.of<AuthProvider>(context);
     final Size size = MediaQuery.of(context).size;
     return Padding(
       padding: const EdgeInsets.all(20.0),
       child: InkWell(
         onTap: () {
-          _authData.getImage().then((value) {
+          authData.getImage().then((value) {
             setState(() {
               image = value;
               print("Image Url is $image");
               print("Image Value is $value");
             });
             if (value != null) {
-              _authData.isPictureAvailable = true;
+              authData.isPictureAvailable = true;
             }
           });
         },

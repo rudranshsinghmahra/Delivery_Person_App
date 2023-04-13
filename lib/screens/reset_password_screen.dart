@@ -64,9 +64,9 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                         if (value!.isEmpty) {
                           return "Please enter your Email";
                         }
-                        final bool _isValid =
+                        final bool isValid =
                             EmailValidator.validate(emailController.text);
-                        if (!_isValid) {
+                        if (!isValid) {
                           return "Invalid Email Format";
                         }
                         setState(() {

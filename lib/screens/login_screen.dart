@@ -4,7 +4,6 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:grocery_delivery_application/provider/auth_provider.dart';
 import 'package:grocery_delivery_application/screens/home_screen.dart';
 import 'package:grocery_delivery_application/screens/registration_screen.dart';
-import 'package:grocery_delivery_application/screens/reset_password_screen.dart';
 import 'package:grocery_delivery_application/services/firebase_services.dart';
 import 'package:provider/provider.dart';
 
@@ -48,8 +47,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         'assets/logo.png',
                         height: 80,
                       ),
-                      FittedBox(
-                        child: const Text(
+                      const FittedBox(
+                        child: Text(
                           "DELIVERY APP - LOGIN",
                           style: TextStyle(
                               fontFamily: 'Anton',
@@ -68,9 +67,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     if (value!.isEmpty) {
                       return "Please enter your Email";
                     }
-                    final bool _isValid =
+                    final bool isValid =
                         EmailValidator.validate(emailController.text);
-                    if (!_isValid) {
+                    if (!isValid) {
                       return "Invalid Email Format";
                     }
                     setState(() {
@@ -185,7 +184,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 }
                               } else {
                                 EasyLoading.showError(
-                                    "${email} is not registered as our delivery boy");
+                                    "$email is not registered as our delivery boy");
                               }
                             });
                           }

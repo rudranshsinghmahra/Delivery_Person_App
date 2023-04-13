@@ -4,7 +4,6 @@ import '../provider/auth_provider.dart';
 
 import '../widgets/image_picker_screen.dart';
 import '../widgets/register_form.dart';
-import 'login_screen.dart';
 
 class RegistrationScreen extends StatelessWidget {
   const RegistrationScreen({Key? key}) : super(key: key);
@@ -12,7 +11,7 @@ class RegistrationScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var _authData = Provider.of<AuthProvider>(context);
+    var authData = Provider.of<AuthProvider>(context);
     return SafeArea(
       child: Scaffold(
         body: Center(

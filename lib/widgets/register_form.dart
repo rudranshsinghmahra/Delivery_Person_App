@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../constants.dart';
 import '../provider/auth_provider.dart';
-import '../screens/home_screen.dart';
 import '../screens/login_screen.dart';
 
 class RegisterForm extends StatefulWidget {
@@ -37,24 +36,24 @@ class _RegisterFormState extends State<RegisterForm> {
   bool isLoading = false;
   @override
   Widget build(BuildContext context) {
-    final _authData = Provider.of<AuthProvider>(context);
+    final authData = Provider.of<AuthProvider>(context);
 
     setState(() {
-      _emailTextEditingController.text = _authData.email;
-      email = _authData.email;
+      _emailTextEditingController.text = authData.email;
+      email = authData.email;
     });
 
     Future<String> uploadFile(String filePath) async {
       File file = File(filePath);
-      FirebaseStorage _storage = FirebaseStorage.instance;
+      FirebaseStorage storage = FirebaseStorage.instance;
       try {
-        await _storage
+        await storage
             .ref('deliveryPersonProfilePic/${_nameTextEditingController.text}')
             .putFile(file);
       } on FirebaseException catch (e) {
         print(e.code);
       }
-      String downloadUrl = await _storage
+      String downloadUrl = await storage
           .ref('deliveryPersonProfilePic/${_nameTextEditingController.text}')
           .getDownloadURL();
       return downloadUrl;
@@ -214,7 +213,7 @@ class _RegisterFormState extends State<RegisterForm> {
                       if (value!.isEmpty) {
                         return "Press Navigator Button";
                       }
-                      if (_authData.shopLatitude == null) {
+                      if (authData.shopLatitude == null) {
                         return "Press Navigator Button";
                       }
                       return null;
@@ -224,11 +223,11 @@ class _RegisterFormState extends State<RegisterForm> {
                           onPressed: () {
                             _addressTextEditingController.text =
                                 "Locating... Please wait";
-                            _authData.getCurrentAddress().then((value) {
+                            authData.getCurrentAddress().then((value) {
                               if (value != null) {
                                 setState(() {
                                   _addressTextEditingController.text =
-                                      "${_authData.placeName}\n${_authData.shopAddress}";
+                                      "${authData.placeName}\n${authData.shopAddress}";
                                 });
                               } else {
                                 showAlert(
@@ -259,12 +258,12 @@ class _RegisterFormState extends State<RegisterForm> {
                             backgroundColor: MaterialStateProperty.all(
                                 Theme.of(context).primaryColor)),
                         onPressed: () {
-                          if (_authData.isPictureAvailable == true) {
+                          if (authData.isPictureAvailable == true) {
                             if (formKey.currentState!.validate()) {
                               setState(() {
                                 isLoading = true;
                               });
-                              _authData
+                              authData
                                   .registerDeliveryBoy(
                                       _emailTextEditingController.text,
                                       _passwordTextEditingController.text,
@@ -272,11 +271,11 @@ class _RegisterFormState extends State<RegisterForm> {
                                   .then((value) {
                                 if (value?.user?.uid != null) {
                                   //Vendor is registered Successfully. Now upload Profile Pic to Firestore.
-                                  uploadFile(_authData.image!.path)
+                                  uploadFile(authData.image!.path)
                                       .then((value) {
                                     if (value != null) {
                                       //Save vendor details to database
-                                      _authData.saveDeliveryBoyDataToDatabase(
+                                      authData.saveDeliveryBoyDataToDatabase(
                                         url: value,
                                         name: deliveryBoyName,
                                         mobile: mobile,
